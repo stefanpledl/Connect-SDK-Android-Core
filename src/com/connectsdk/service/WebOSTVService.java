@@ -22,8 +22,9 @@ package com.connectsdk.service;
 
 import android.annotation.SuppressLint;
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.connectsdk.core.AppInfo;
 import com.connectsdk.core.ChannelInfo;
