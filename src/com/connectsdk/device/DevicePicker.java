@@ -1,10 +1,10 @@
 /*
  * DevicePicker
  * Connect SDK
- * 
+ *
  * Copyright (c) 2014 LG Electronics.
  * Created by Hyun Kook Khang on 19 Jan 2014
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,16 +22,22 @@ package com.connectsdk.device;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * ###Overview
  * The DevicePicker is provided by the DiscoveryManager as a simple way for you to present a list of available devices to your users.
- *
+ * <p>
  * ###In Depth
  * By calling the getPickerDialog you will get a reference to the AlertDialog that will be updated automatically updated as compatible devices are discovered.
  */
@@ -41,7 +47,7 @@ public class DevicePicker {
 
     /**
      * Creates a new DevicePicker
-     * 
+     *
      * @param activity Activity that DevicePicker will appear in
      */
     public DevicePicker(Activity activity) {
@@ -54,7 +60,7 @@ public class DevicePicker {
 
     /**
      * Sets a selected device.
-     * 
+     *
      * @param device Device that has been selected.
      */
     public void pickDevice(ConnectableDevice device) {
@@ -74,7 +80,7 @@ public class DevicePicker {
     /**
      * This method will return an AlertDialog that contains a ListView with an item for each discovered ConnectableDevice.
      *
-     * @param message The title for the AlertDialog
+     * @param message  The title for the AlertDialog
      * @param listener The listener for the ListView to get the item that was clicked on
      */
     public AlertDialog getPickerDialog(String message, final OnItemClickListener listener) {
@@ -84,20 +90,54 @@ public class DevicePicker {
         title.setText(message);
 
         final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
-        .setCustomTitle(title)
-        .setCancelable(true)
-        .setView(view)
-        .create();
+                .setCustomTitle(title)
+                .setCancelable(true)
+                .setView(view)
+                .create();
 
-        view.setOnItemClickListener(new OnItemClickListener () {
+        view.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                    long arg3) {
+                                    long arg3) {
                 listener.onItemClick(arg0, arg1, arg2, arg3);
                 pickerDialog.dismiss();
             }
         });
-
         return pickerDialog;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+    public AlertDialog getConnectedDeviceDialog() {
+        if (device != null) {
+            TextView title = (TextView) activity.getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
+            title.setText(device.getFriendlyName());
+            final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
+                    .setCustomTitle(title)
+                    .setCancelable(false)
+                    .setPositiveButton("STOP CASTING", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (device != null) {
+                                device.cancelPairing();
+                                device.disconnect();
+                                device = null;
+                            }
+                            dialogInterface.dismiss();
+                        }
+                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create();
+            Button nbutton = pickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+            nbutton.setTextColor(Color.parseColor("#ff5000"));
+            Button pbutton = pickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            pbutton.setTextColor(Color.parseColor("#ff5000"));
+            return pickerDialog;
+        }
+        return null;
+    }
+
+
 }
