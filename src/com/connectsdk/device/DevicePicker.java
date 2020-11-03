@@ -106,38 +106,4 @@ public class DevicePicker {
         return pickerDialog;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    public AlertDialog getConnectedDeviceDialog() {
-        if (device != null) {
-            TextView title = (TextView) activity.getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
-            title.setText(device.getFriendlyName());
-            final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
-                    .setCustomTitle(title)
-                    .setCancelable(false)
-                    .setPositiveButton("STOP CASTING", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (device != null) {
-                                device.cancelPairing();
-                                device.disconnect();
-                                device = null;
-                            }
-                            dialogInterface.dismiss();
-                        }
-                    }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).create();
-            Button nbutton = pickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-            nbutton.setTextColor(Color.parseColor("#ff5000"));
-            Button pbutton = pickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-            pbutton.setTextColor(Color.parseColor("#ff5000"));
-            return pickerDialog;
-        }
-        return null;
-    }
-
-
 }
