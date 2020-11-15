@@ -41,7 +41,7 @@ import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.command.ServiceCommandError;
 
 public final class Util {
-    static public String T = "Connect SDK";
+    static public String T = "ConnectSDK";
 
     static private Handler handler;
 

@@ -243,6 +243,11 @@ public class SSDPDiscoveryProvider implements DiscoveryProvider {
         return serviceFilters.size() == 0;
     }
 
+    @Override
+    public void setScanIntensity(ScanIntensity intensity) {
+
+    }
+
     private Runnable mResponseHandler = new Runnable() {
         @Override
         public void run() {

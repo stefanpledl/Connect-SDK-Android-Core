@@ -246,10 +246,9 @@ public class DiscoveryManager implements ConnectableDeviceListener, DiscoveryPro
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-
                 if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
                     NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-
+                    Log.i(Util.T, "Network connection state " + networkInfo.getDetailedState());
                     switch (networkInfo.getState()) {
                         case CONNECTED:
                             if (mSearching) {
@@ -261,19 +260,8 @@ public class DiscoveryManager implements ConnectableDeviceListener, DiscoveryPro
                             break;
 
                         case DISCONNECTED:
-                            Log.w(Util.T, "Network connection is disconnected");
-
-                            for (DiscoveryProvider provider : discoveryProviders) {
-                                provider.reset();
-                            }
-
-                            allDevices.clear();
-
-                            for (ConnectableDevice device : compatibleDevices.values()) {
-                                handleDeviceLoss(device);
-                            }
-                            compatibleDevices.clear();
-
+                            Log.i(Util.T, "Network connection is disconnected");
+                            resetDevices();
                             break;
 
                         case CONNECTING:
@@ -351,6 +339,33 @@ public class DiscoveryManager implements ConnectableDeviceListener, DiscoveryPro
                 handleDeviceAdd(device);
             }
         }
+    }
+
+    public void rescan() {
+        if (mSearching) {
+            for (DiscoveryProvider provider : discoveryProviders) {
+                provider.rescan();
+            }
+        }
+    }
+
+    public void setScanIntensity(DiscoveryProvider.ScanIntensity intensity) {
+        for (DiscoveryProvider provider : discoveryProviders) {
+            provider.setScanIntensity(intensity);
+        }
+    }
+
+    private void resetDevices() {
+        for (DiscoveryProvider provider : discoveryProviders) {
+            provider.reset();
+        }
+
+        allDevices.clear();
+
+        for (ConnectableDevice device : compatibleDevices.values()) {
+            handleDeviceLoss(device);
+        }
+        compatibleDevices.clear();
     }
 
     /**
@@ -695,6 +710,7 @@ public class DiscoveryManager implements ConnectableDeviceListener, DiscoveryPro
     }
 
     public void onDestroy() {
+        resetDevices();
         unregisterBroadcastReceiver();
     }
 

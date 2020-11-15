@@ -95,4 +95,11 @@ public interface DiscoveryProvider {
      * Whether or not the DiscoveryProvider has any services it is supposed to be searching for. If YES, then the DiscoveryProvider will be stopped and de-referenced by the DiscoveryManager.
      */
     public boolean isEmpty();
+
+    public void setScanIntensity(ScanIntensity intensity);
+
+    public enum ScanIntensity{
+        PASSIVE,
+        ACTIVE
+    }
 }

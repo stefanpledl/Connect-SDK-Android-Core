@@ -1,10 +1,10 @@
 /*
  * ZeroconfDiscoveryProvider
  * Connect SDK
- * 
+ *
  * Copyright (c) 2014 LG Electronics.
  * Created by Hyun Kook Khang on 18 Apr 2014
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,6 +20,15 @@
 
 package com.connectsdk.discovery.provider;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.connectsdk.core.Util;
+import com.connectsdk.discovery.DiscoveryFilter;
+import com.connectsdk.discovery.DiscoveryProvider;
+import com.connectsdk.discovery.DiscoveryProviderListener;
+import com.connectsdk.service.config.ServiceDescription;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -34,15 +43,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceListener;
-
-import android.content.Context;
-import android.util.Log;
-
-import com.connectsdk.core.Util;
-import com.connectsdk.discovery.DiscoveryFilter;
-import com.connectsdk.discovery.DiscoveryProvider;
-import com.connectsdk.discovery.DiscoveryProviderListener;
-import com.connectsdk.service.config.ServiceDescription;
 
 public class ZeroconfDiscoveryProvider implements DiscoveryProvider {
     private static final String HOSTNAME = "connectsdk";
@@ -88,8 +88,7 @@ public class ZeroconfDiscoveryProvider implements DiscoveryProvider {
                 foundService.setFriendlyName(friendlyName);
 
                 listUpdateFlag = true;
-            }
-            else {
+            } else {
                 if (!foundService.getFriendlyName().equals(friendlyName)) {
                     foundService.setFriendlyName(friendlyName);
                     listUpdateFlag = true;
@@ -102,7 +101,7 @@ public class ZeroconfDiscoveryProvider implements DiscoveryProvider {
             foundServices.put(ipAddress, foundService);
 
             if (listUpdateFlag) {
-                for (DiscoveryProviderListener listener: serviceListeners) {
+                for (DiscoveryProviderListener listener : serviceListeners) {
                     listener.onServiceAdded(ZeroconfDiscoveryProvider.this, foundService);
                 }
             }
@@ -285,6 +284,11 @@ public class ZeroconfDiscoveryProvider implements DiscoveryProvider {
     @Override
     public boolean isEmpty() {
         return serviceFilters.size() == 0;
+    }
+
+    @Override
+    public void setScanIntensity(ScanIntensity intensity) {
+
     }
 
     public String serviceIdForFilter(String filter) {

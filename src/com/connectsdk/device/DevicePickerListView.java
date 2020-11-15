@@ -1,10 +1,10 @@
 /*
  * DevicePickerListView
  * Connect SDK
- * 
+ *
  * Copyright (c) 2014 LG Electronics.
  * Created by Hyun Kook Khang on 19 Jan 2014
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +21,8 @@
 package com.connectsdk.device;
 
 import android.content.Context;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.connectsdk.core.Util;
@@ -41,9 +43,17 @@ public class DevicePickerListView extends ListView implements DiscoveryManagerLi
         DiscoveryManager.getInstance().addListener(this);
     }
 
+    public DevicePickerListView(Context context, int resource, int textViewResourceId, int subTextViewResourceId) {
+        super(context);
+        pickerAdapter = new DevicePickerAdapter(context, resource, textViewResourceId, subTextViewResourceId);
+
+        setAdapter(pickerAdapter);
+        DiscoveryManager.getInstance().addListener(this);
+    }
+
     @Override
     public void onDiscoveryFailed(DiscoveryManager manager, ServiceCommandError error) {
-        Util.runOnUI(new Runnable () {
+        Util.runOnUI(new Runnable() {
             @Override
             public void run() {
                 pickerAdapter.clear();
@@ -53,7 +63,7 @@ public class DevicePickerListView extends ListView implements DiscoveryManagerLi
 
     @Override
     public void onDeviceAdded(final DiscoveryManager manager, final ConnectableDevice device) {
-        Util.runOnUI(new Runnable () {
+        Util.runOnUI(new Runnable() {
             @Override
             public void run() {
                 int index = -1;
@@ -97,7 +107,7 @@ public class DevicePickerListView extends ListView implements DiscoveryManagerLi
 
     @Override
     public void onDeviceUpdated(DiscoveryManager manager, final ConnectableDevice device) {
-        Util.runOnUI(new Runnable () {
+        Util.runOnUI(new Runnable() {
             @Override
             public void run() {
                 pickerAdapter.notifyDataSetChanged();
@@ -107,11 +117,19 @@ public class DevicePickerListView extends ListView implements DiscoveryManagerLi
 
     @Override
     public void onDeviceRemoved(DiscoveryManager manager, final ConnectableDevice device) {
-        Util.runOnUI(new Runnable () {
+        Util.runOnUI(new Runnable() {
             @Override
             public void run() {
                 pickerAdapter.remove(device);
             }
         });
+    }
+
+    private int getPixel(int dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
     }
 }

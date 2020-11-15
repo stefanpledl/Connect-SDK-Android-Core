@@ -1,10 +1,10 @@
 /*
  * DevicePickerAdaper
  * Connect SDK
- * 
+ *
  * Copyright (c) 2014 LG Electronics.
  * Created by Hyun Kook Khang on 19 Jan 2014
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,10 +20,6 @@
 
 package com.connectsdk.device;
 
-import java.util.HashMap;
-
-import com.connectsdk.discovery.DiscoveryManager;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
@@ -32,18 +28,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.connectsdk.discovery.DiscoveryManager;
+
+import java.util.HashMap;
+
 
 public class DevicePickerAdapter extends ArrayAdapter<ConnectableDevice> {
     int resource, textViewResourceId, subTextViewResourceId;
     HashMap<String, ConnectableDevice> currentDevices = new HashMap<String, ConnectableDevice>();
     Context context;
+    boolean customizedView = true;
 
     DevicePickerAdapter(Context context) {
-        this(context, android.R.layout.simple_list_item_2);
-    }
-
-    DevicePickerAdapter(Context context, int resource) {
-        this(context, resource, android.R.id.text1, android.R.id.text2);
+        this(context, android.R.layout.simple_list_item_2, android.R.id.text1, android.R.id.text2);
+        customizedView = false;
     }
 
     DevicePickerAdapter(Context context, int resource, int textViewResourceId, int subTextViewResourceId) {
@@ -66,18 +64,18 @@ public class DevicePickerAdapter extends ArrayAdapter<ConnectableDevice> {
         String text;
         if (device.getFriendlyName() != null) {
             text = device.getFriendlyName();
-        }
-        else {
+        } else {
             text = device.getModelName();
         }
 
-        view.setBackgroundColor(Color.BLACK);
-
         TextView textView = (TextView) view.findViewById(textViewResourceId);
         textView.setText(text);
-        textView.setTextColor(Color.WHITE);
+        if (!customizedView) {
+            view.setBackgroundColor(Color.BLACK);
+            textView.setTextColor(Color.WHITE);
+        }
 
-        boolean isDebuggable =  (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+        boolean isDebuggable = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
         boolean hasNoFilters = DiscoveryManager.getInstance().getCapabilityFilters().size() == 0;
 
         String serviceNames = device.getConnectedServiceNames();
@@ -89,7 +87,9 @@ public class DevicePickerAdapter extends ArrayAdapter<ConnectableDevice> {
 
         if (shouldShowServiceNames) {
             subTextView.setText(serviceNames);
-            subTextView.setTextColor(Color.WHITE);
+            if (!customizedView) {
+                subTextView.setTextColor(Color.WHITE);
+            }
         } else {
             subTextView.setText(null);
         }

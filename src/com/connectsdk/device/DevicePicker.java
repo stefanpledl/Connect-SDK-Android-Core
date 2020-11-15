@@ -22,17 +22,12 @@ package com.connectsdk.device;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.os.Build;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 
 /**
  * ###Overview
@@ -91,6 +86,32 @@ public class DevicePicker {
 
         final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
                 .setCustomTitle(title)
+                .setCancelable(true)
+                .setView(view)
+                .create();
+
+        view.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                listener.onItemClick(arg0, arg1, arg2, arg3);
+                pickerDialog.dismiss();
+            }
+        });
+        return pickerDialog;
+    }
+
+    /**
+     * This method will return an AlertDialog that contains a ListView with an item for each discovered ConnectableDevice.
+     *
+     * @param headerView The title for the AlertDialog
+     * @param listener   The listener for the ListView to get the item that was clicked on
+     */
+    public AlertDialog getPickerDialog(int headerView, int itemView, int textResourceId, int subTextResourceId, final OnItemClickListener listener) {
+        ViewGroup titleContainer = (ViewGroup) activity.getLayoutInflater().inflate(headerView, null);
+        final DevicePickerListView view = new DevicePickerListView(activity, itemView, textResourceId, subTextResourceId);
+        final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
+                .setCustomTitle(titleContainer)
                 .setCancelable(true)
                 .setView(view)
                 .create();
