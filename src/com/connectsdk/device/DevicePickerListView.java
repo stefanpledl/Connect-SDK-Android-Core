@@ -43,9 +43,9 @@ public class DevicePickerListView extends ListView implements DiscoveryManagerLi
         DiscoveryManager.getInstance().addListener(this);
     }
 
-    public DevicePickerListView(Context context, int resource, int textViewResourceId, int subTextViewResourceId) {
+    public DevicePickerListView(Context context, int resource, int textViewResourceId) {
         super(context);
-        pickerAdapter = new DevicePickerAdapter(context, resource, textViewResourceId, subTextViewResourceId);
+        pickerAdapter = new DevicePickerAdapter(context, resource, textViewResourceId);
 
         setAdapter(pickerAdapter);
         DiscoveryManager.getInstance().addListener(this);

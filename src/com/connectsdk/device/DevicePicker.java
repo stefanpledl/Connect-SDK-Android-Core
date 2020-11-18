@@ -107,9 +107,9 @@ public class DevicePicker {
      * @param headerView The title for the AlertDialog
      * @param listener   The listener for the ListView to get the item that was clicked on
      */
-    public AlertDialog getPickerDialog(int headerView, int itemView, int textResourceId, int subTextResourceId, final OnItemClickListener listener) {
+    public AlertDialog getPickerDialog(int headerView, int itemView, int textResourceId, final OnItemClickListener listener) {
         ViewGroup titleContainer = (ViewGroup) activity.getLayoutInflater().inflate(headerView, null);
-        final DevicePickerListView view = new DevicePickerListView(activity, itemView, textResourceId, subTextResourceId);
+        final DevicePickerListView view = new DevicePickerListView(activity, itemView, textResourceId);
         final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
                 .setCustomTitle(titleContainer)
                 .setCancelable(true)

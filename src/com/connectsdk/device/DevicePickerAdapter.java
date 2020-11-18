@@ -34,22 +34,21 @@ import java.util.HashMap;
 
 
 public class DevicePickerAdapter extends ArrayAdapter<ConnectableDevice> {
-    int resource, textViewResourceId, subTextViewResourceId;
+    int resource, textViewResourceId;
     HashMap<String, ConnectableDevice> currentDevices = new HashMap<String, ConnectableDevice>();
     Context context;
     boolean customizedView = true;
 
     DevicePickerAdapter(Context context) {
-        this(context, android.R.layout.simple_list_item_2, android.R.id.text1, android.R.id.text2);
+        this(context, android.R.layout.simple_list_item_1, android.R.id.text1);
         customizedView = false;
     }
 
-    DevicePickerAdapter(Context context, int resource, int textViewResourceId, int subTextViewResourceId) {
+    DevicePickerAdapter(Context context, int resource, int textViewResourceId) {
         super(context, resource, textViewResourceId);
         this.context = context;
         this.resource = resource;
         this.textViewResourceId = textViewResourceId;
-        this.subTextViewResourceId = subTextViewResourceId;
     }
 
     @Override
@@ -59,7 +58,6 @@ public class DevicePickerAdapter extends ArrayAdapter<ConnectableDevice> {
         if (convertView == null) {
             view = View.inflate(getContext(), resource, null);
         }
-
         ConnectableDevice device = this.getItem(position);
         String text;
         if (device.getFriendlyName() != null) {
@@ -67,33 +65,12 @@ public class DevicePickerAdapter extends ArrayAdapter<ConnectableDevice> {
         } else {
             text = device.getModelName();
         }
-
         TextView textView = (TextView) view.findViewById(textViewResourceId);
         textView.setText(text);
         if (!customizedView) {
             view.setBackgroundColor(Color.BLACK);
             textView.setTextColor(Color.WHITE);
         }
-
-        boolean isDebuggable = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-        boolean hasNoFilters = DiscoveryManager.getInstance().getCapabilityFilters().size() == 0;
-
-        String serviceNames = device.getConnectedServiceNames();
-        boolean hasServiceNames = (serviceNames != null && serviceNames.length() > 0);
-
-        boolean shouldShowServiceNames = hasServiceNames && (isDebuggable || hasNoFilters);
-
-        TextView subTextView = (TextView) view.findViewById(subTextViewResourceId);
-
-        if (shouldShowServiceNames) {
-            subTextView.setText(serviceNames);
-            if (!customizedView) {
-                subTextView.setTextColor(Color.WHITE);
-            }
-        } else {
-            subTextView.setText(null);
-        }
-
         return view;
     }
 }
