@@ -110,6 +110,9 @@ public class DevicePicker {
     public AlertDialog getPickerDialog(int headerView, int itemView, int textResourceId, final OnItemClickListener listener) {
         ViewGroup titleContainer = (ViewGroup) activity.getLayoutInflater().inflate(headerView, null);
         final DevicePickerListView view = new DevicePickerListView(activity, itemView, textResourceId);
+        view.setDivider(null);
+        view.setDividerHeight(0);
+        view.setPadding(0, 0, 0, dpToPixel(13));
         final AlertDialog pickerDialog = new AlertDialog.Builder(activity)
                 .setCustomTitle(titleContainer)
                 .setCancelable(true)
@@ -125,6 +128,11 @@ public class DevicePicker {
             }
         });
         return pickerDialog;
+    }
+
+    private int dpToPixel(int paddingDp) {
+        float density = activity.getResources().getDisplayMetrics().density;
+        return (int) (paddingDp * density);
     }
 
 }
