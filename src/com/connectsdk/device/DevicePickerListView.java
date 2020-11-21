@@ -123,12 +123,4 @@ public class DevicePickerListView extends ListView implements DiscoveryManagerLi
             }
         });
     }
-
-    private int getPixel(int dp) {
-        return (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                getResources().getDisplayMetrics()
-        );
-    }
 }
