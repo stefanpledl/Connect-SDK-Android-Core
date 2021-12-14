@@ -282,6 +282,8 @@ public class RokuService extends DeviceService implements Launcher, MediaPlayer,
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (Throwable t){
+                    t.printStackTrace();
                 }
             }
 

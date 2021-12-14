@@ -63,7 +63,7 @@ public class AirPlayAuth {
 
             PKCS8EncodedKeySpec encoded = new PKCS8EncodedKeySpec(net.i2p.crypto.eddsa.Utils.hexToBytes(authTokenSplit[1]));
             this.authKey = new EdDSAPrivateKey(encoded);
-        } catch (InvalidKeySpecException e) {
+        } catch (Throwable e) {
             throw new RuntimeException(e);
         }
     }

@@ -56,8 +56,12 @@ public class AirPlayServiceSocketClient implements ServiceCommandProcessor {
         if (mconfig.getAuthToken() == "") {
             mconfig.setAuthToken(AirPlayAuth.generateNewAuthToken());
         }
-        airPlayAuth = new AirPlayAuth(new InetSocketAddress(ipAddress, PORT), mconfig.getAuthToken());
-        state = State.INITIAL;
+        try {
+            airPlayAuth = new AirPlayAuth(new InetSocketAddress(ipAddress, PORT), mconfig.getAuthToken());
+            state = State.INITIAL;
+        }catch (Throwable t){
+
+        }
     }
 
     public State getState() {
@@ -111,7 +115,8 @@ public class AirPlayServiceSocketClient implements ServiceCommandProcessor {
                     mListener.onBeforeRegister(mPairingType);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                mListener.onRegistrationFailed(new ServiceCommandError(ex.toString()));
+                if(mListener != null)
+                    mListener.onRegistrationFailed(new ServiceCommandError(ex.toString()));
             }
         }
 
@@ -121,12 +126,14 @@ public class AirPlayServiceSocketClient implements ServiceCommandProcessor {
                 count++;
                 Thread.sleep(100);
                 if (count > 200) {
-                    mListener.onRegistrationFailed(new ServiceCommandError("Pairing Timeout"));
+                    if(mListener != null)
+                        mListener.onRegistrationFailed(new ServiceCommandError("Pairing Timeout"));
                     break;
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                mListener.onRegistrationFailed(new ServiceCommandError(e.toString()));
+                if(mListener != null)
+                    mListener.onRegistrationFailed(new ServiceCommandError(e.toString()));
             }
         }
     }
@@ -166,11 +173,18 @@ public class AirPlayServiceSocketClient implements ServiceCommandProcessor {
                         Util.postSuccess(serviceCommand.getResponseListener(),
                                 AuthUtils.putData(socket, url, HttpMessage.CONTENT_TYPE_APPLICATION_PLIST, payload));
                     }
-                } catch (IOException e) {
+                } catch (Throwable e) {
                     e.printStackTrace();
-                    String[] tmp = e.getMessage().split(" ");
-                    int statusCode = Integer.parseInt(tmp[tmp.length - 1]);
+
+                        String[] tmp = e.getMessage().split(" ");
+                        int statusCode = -1;
+                    try {
+                        statusCode = Integer.parseInt(tmp[tmp.length - 1]);
+                    }catch (Throwable t){
+                        statusCode = -2;
+                    }
                     Util.postError(serviceCommand.getResponseListener(), ServiceCommandError.getError(statusCode));
+
                 }
             }
         }).start();

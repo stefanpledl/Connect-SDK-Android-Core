@@ -20,6 +20,8 @@
 
 package com.connectsdk.device;
 
+import static com.connectsdk.service.config.ServiceDescription.KEY_ICON;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -35,6 +37,7 @@ import android.util.Log;
 
 import com.connectsdk.core.Util;
 import com.connectsdk.discovery.DiscoveryManager;
+import com.connectsdk.discovery.provider.ssdp.Icon;
 import com.connectsdk.service.DeviceService;
 import com.connectsdk.service.DeviceService.DeviceServiceListener;
 import com.connectsdk.service.DeviceService.PairingType;
@@ -86,6 +89,8 @@ public class ConnectableDevice implements DeviceServiceListener {
 
     private String lastKnownIPAddress;
     private String lastSeenOnWifi;
+    private String icon;
+
     private long lastConnected;
     private long lastDetection;
 
@@ -107,13 +112,14 @@ public class ConnectableDevice implements DeviceServiceListener {
         services = new ConcurrentHashMap<String, DeviceService>();
     }
 
-    public ConnectableDevice(String ipAddress, String friendlyName, String modelName, String modelNumber) {
+    public ConnectableDevice(String ipAddress, String friendlyName, String modelName, String modelNumber, String icon) {
         this();
 
         this.ipAddress = ipAddress;
         this.friendlyName = friendlyName;
         this.modelName = modelName;
         this.modelNumber = modelNumber;
+        this.icon = icon;
     }
 
     public ConnectableDevice(ServiceDescription description) {
@@ -133,14 +139,16 @@ public class ConnectableDevice implements DeviceServiceListener {
         setLastSeenOnWifi(json.optString(KEY_LAST_SEEN, null));
         setLastConnected(json.optLong(KEY_LAST_CONNECTED, 0));
         setLastDetection(json.optLong(KEY_LAST_DETECTED, 0));
+        setIcon(json.optString(KEY_ICON, null));
+
     }
 
-    public static ConnectableDevice createFromConfigString(String ipAddress, String friendlyName, String modelName, String modelNumber) {
-        return new ConnectableDevice(ipAddress, friendlyName, modelName, modelNumber);
+    public static ConnectableDevice createFromConfigString(String ipAddress, String friendlyName, String modelName, String modelNumber, String icon) {
+        return new ConnectableDevice(ipAddress, friendlyName, modelName, modelNumber, icon);
     }
 
-    public static ConnectableDevice createWithId(String id, String ipAddress, String friendlyName, String modelName, String modelNumber) {
-        ConnectableDevice mDevice = new ConnectableDevice(ipAddress, friendlyName, modelName, modelNumber);
+    public static ConnectableDevice createWithId(String id, String ipAddress, String friendlyName, String modelName, String modelNumber, String icon) {
+        ConnectableDevice mDevice = new ConnectableDevice(ipAddress, friendlyName, modelName, modelNumber, icon);
         mDevice.setId(id);
 
         return mDevice;
@@ -713,6 +721,14 @@ public class ConnectableDevice implements DeviceServiceListener {
      */
     public void setLastSeenOnWifi(String lastSeenOnWifi) {
         this.lastSeenOnWifi = lastSeenOnWifi;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIcon() {
+        return icon;
     }
 
     /** Gets the name of the last wireless network this ConnectableDevice was discovered on. */

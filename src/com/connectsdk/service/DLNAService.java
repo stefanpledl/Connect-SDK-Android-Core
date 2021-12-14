@@ -255,7 +255,9 @@ public class DLNAService extends DeviceService implements PlaylistControl, Media
         final String instanceId = "0";
         String[] mediaElements = mimeType.split("/");
         String mediaType = mediaElements[0];
-        String mediaFormat = mediaElements[1];
+        String mediaFormat = "*";
+        if(mediaElements.length > 1)
+            mediaFormat = mediaElements[1];
 
         if (mediaType == null || mediaType.length() == 0 || mediaFormat == null || mediaFormat.length() == 0) {
             Util.postError(listener, new ServiceCommandError(0, "You must provide a valid mimeType (audio/*,  video/*, etc)", null));

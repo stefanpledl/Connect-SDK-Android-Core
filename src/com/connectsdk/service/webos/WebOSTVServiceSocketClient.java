@@ -69,7 +69,9 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         REGISTERING,
         REGISTERED,
         DISCONNECTING
-    };
+    }
+
+    ;
 
     WebOSTVServiceSocketClientListener mListener;
 
@@ -86,8 +88,8 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
     static final String Public_Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2At7fSUHuMw6bm/z3Q+X4oY9KpDa1s06\n" +
             "mht9vNmSkZE5xMo9asOtZAWLLbJLxifY6qz6LWKgNw4Pyk6HVTLFdj4jrV//gNGQvYtCp3HRriqg\n" +
             "2YoceBNG59+SW3xNzuhUqy5/nerQPfNQiz9z9RqtGj/YWItlJcKrNOBecNmHc7Xmu+3yPN6kD1G2\n" +
-            "6uU8wPBqzMdqFpPcubedIOmh4nNa2sNkfvMkbR4Pk/YupsDpic56dMxX0Twvg6SiaKGjv8NO9Lcv\n"+
-            "hLt2dR2XXi/z2F6uVjP5oYPvlSAK9GHVo96khpafKGPvIwPSSGtlHI4is/yT7WEeLuQs5FD/vAs9\n"+
+            "6uU8wPBqzMdqFpPcubedIOmh4nNa2sNkfvMkbR4Pk/YupsDpic56dMxX0Twvg6SiaKGjv8NO9Lcv\n" +
+            "hLt2dR2XXi/z2F6uVjP5oYPvlSAK9GHVo96khpafKGPvIwPSSGtlHI4is/yT7WEeLuQs5FD/vAs9\n" +
             "eqQNkQIDAQAB\n";
 
     // Queue of commands that should be sent once register is complete
@@ -106,7 +108,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         return mconfig.getClientKey();
     }
 
-    public WebOSTVServiceSocketClient(WebOSTVServiceConfig config, PairingType pairingType , List<String> permissions, URI uri) {
+    public WebOSTVServiceSocketClient(WebOSTVServiceConfig config, PairingType pairingType, List<String> permissions, URI uri) {
         super(uri);
 
         this.mPairingType = pairingType;
@@ -182,18 +184,20 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
     }
 
     public void connect() {
-        synchronized (this) {
-            if (state != State.INITIAL) {
-                Log.w(Util.T, "already connecting; not trying to connect again: " + state);
-                return; // don't try to connect again while connected
+        try {
+            synchronized (this) {
+                if (state != State.INITIAL) {
+                    Log.w(Util.T, "already connecting; not trying to connect again: " + state);
+                    return; // don't try to connect again while connected
+                }
+
+                state = State.CONNECTING;
             }
-
-            state = State.CONNECTING;
+            setupSSL();
+            super.connect();
+        } catch (Throwable t) {
+            //exception if connected twice
         }
-
-        setupSSL();
-
-        super.connect();
     }
 
     public void disconnect() {
@@ -223,7 +227,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
 //            manifest.put("appId", 1);
 //            manifest.put("vendorId", 1);
 //            manifest.put("localizedAppNames", 1);
-            manifest.put("permissions",  convertStringListToJSONArray(permissions));
+            manifest.put("permissions", convertStringListToJSONArray(permissions));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -232,7 +236,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
     private JSONArray convertStringListToJSONArray(List<String> list) {
         JSONArray jsonArray = new JSONArray();
 
-        for(String str: list) {
+        for (String str : list) {
             jsonArray.put(str);
         }
 
@@ -311,11 +315,9 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         if (isInteger(strId)) {
             id = Integer.valueOf(strId);
 
-            try
-            {
+            try {
                 request = (ServiceCommand<ResponseListener<Object>>) requests.get(id);
-            } catch (ClassCastException ex)
-            {
+            } catch (ClassCastException ex) {
                 // since request is assigned to null, don't need to do anything here
             }
         }
@@ -328,8 +330,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
 //                Log.d(Util.T, "Found requests need to handle response");
                 if (payload != null) {
                     Util.postSuccess(request.getResponseListener(), payload);
-                }
-                else {
+                } else {
                     Util.postError(request.getResponseListener(), new ServiceCommandError(-1, "JSON parse error", null));
                 }
 
@@ -374,7 +375,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
             String errorDesc = null;
 
             try {
-                String [] parts = error.split(" ", 2);
+                String[] parts = error.split(" ", 2);
                 errorCode = Integer.parseInt(parts[0]);
                 errorDesc = parts[1];
             } catch (Exception e) {
@@ -397,12 +398,12 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
                 }
             }
         } else if ("hello".equals(type)) {
-            JSONObject jsonObj = (JSONObject)payload;
+            JSONObject jsonObj = (JSONObject) payload;
 
             if (mconfig.getServiceUUID() != null) {
                 if (!mconfig.getServiceUUID().equals(jsonObj.optString("deviceUUID"))) {
                     mconfig.setClientKey(null);
-                    mconfig.setServerCertificate((String)null);
+                    mconfig.setServerCertificate((String) null);
                     mconfig.setServiceUUID(null);
                     mListener.updateClientKey(null);
                     mListener.updateUUID(null);
@@ -412,8 +413,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
 
                     disconnect();
                 }
-            }
-            else {
+            } else {
                 String uuid = jsonObj.optString("deviceUUID");
                 mconfig.setServiceUUID(uuid);
                 mListener.updateUUID(uuid);
@@ -531,12 +531,12 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
             PublicKey pk = null;
 
             pk = cert.getPublicKey();
-            String pubKey = Base64.encodeToString(pk.getEncoded(),Base64.DEFAULT);
+            String pubKey = Base64.encodeToString(pk.getEncoded(), Base64.DEFAULT);
 
             try {
                 cert.verify(pk);
                 verification_status = true;
-            } catch (CertificateException|SignatureException e) {
+            } catch (CertificateException | SignatureException e) {
                 if (!(Public_Key == null || Public_Key.isEmpty())) {
                     boolean verified = pubKey.trim().equalsIgnoreCase(Public_Key.trim());
                     if (verified) {
@@ -592,13 +592,12 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
             public void onSuccess(Object object) {
                 if (object instanceof JSONObject) {
                     PairingType pairingType = PairingType.NONE;
-                    
-                    JSONObject jsonObj = (JSONObject)object;
+
+                    JSONObject jsonObj = (JSONObject) object;
                     String type = jsonObj.optString("pairingType");
                     if (type.equalsIgnoreCase("PROMPT")) {
                         pairingType = PairingType.FIRST_SCREEN;
-                    }
-                    else if (type.equalsIgnoreCase("PIN")) {
+                    } else if (type.equalsIgnoreCase("PIN")) {
                         pairingType = PairingType.PIN_CODE;
                     }
                     if (mListener != null)
@@ -655,7 +654,8 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
             }
 
             @Override
-            public void onSuccess(Object object) { }
+            public void onSuccess(Object object) {
+            }
         };
 
         String uri = "ssap://pairing/setPin";
@@ -717,8 +717,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         if (command.getRequestId() == -1) {
             requestId = this.nextRequestId++;
             command.setRequestId(requestId);
-        }
-        else {
+        } else {
             requestId = command.getRequestId();
         }
 
@@ -726,7 +725,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
 
         if (state == State.REGISTERED) {
             this.sendCommandImmediately(command);
-        } else if (state == State.CONNECTING || state == State.DISCONNECTING){
+        } else if (state == State.CONNECTING || state == State.DISCONNECTING) {
             Log.d(Util.T, "queuing command for " + command.getTarget());
             commandQueue.add((ServiceCommand<ResponseListener<Object>>) command);
         } else {
@@ -742,11 +741,10 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         if (requests.get(requestId) != null) {
             JSONObject headers = new JSONObject();
 
-            try{
+            try {
                 headers.put("type", "unsubscribe");
                 headers.put("id", String.valueOf(requestId));
-            } catch (JSONException e)
-            {
+            } catch (JSONException e) {
                 // Safe to ignore
                 e.printStackTrace();
             }
@@ -756,51 +754,42 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         }
     }
 
-    public void unsubscribe(ServiceSubscription<?> subscription) { }
+    public void unsubscribe(ServiceSubscription<?> subscription) {
+    }
 
     protected void sendCommandImmediately(ServiceCommand<?> command) {
         JSONObject headers = new JSONObject();
         JSONObject payload = (JSONObject) command.getPayload();
         String payloadType = "";
 
-        try
-        {
+        try {
             payloadType = payload.getString("type");
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             // ignore
         }
 
-        if (payloadType.equals("p2p"))
-        {
+        if (payloadType.equals("p2p")) {
             Iterator<?> iterator = payload.keys();
 
-            while (iterator.hasNext())
-            {
+            while (iterator.hasNext()) {
                 String key = (String) iterator.next();
 
-                try
-                {
+                try {
                     headers.put(key, payload.get(key));
-                } catch (JSONException ex)
-                {
+                } catch (JSONException ex) {
                     // ignore
                 }
             }
 
             this.sendMessage(headers, null);
-        }
-        else if (payloadType.equals("hello")) {
+        } else if (payloadType.equals("hello")) {
             this.send(payload.toString());
-        }
-        else {
-            try
-            {
+        } else {
+            try {
                 headers.put("type", command.getHttpMethod());
                 headers.put("id", String.valueOf(command.getRequestId()));
                 headers.put("uri", command.getTarget());
-            } catch (JSONException ex)
-            {
+            } catch (JSONException ex) {
                 // TODO: handle this
             }
 
@@ -813,7 +802,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         //Web-Socket 1.3.7 patch
         try {
             setSocket(sslContext.getSocketFactory().createSocket());
-			setConnectionLostTimeout(0);
+            setConnectionLostTimeout(0);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
@@ -826,7 +815,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
             customTrustManager = new WebOSTVTrustManager();
-            sslContext.init(null, new WebOSTVTrustManager [] {customTrustManager}, null);
+            sslContext.init(null, new WebOSTVTrustManager[]{customTrustManager}, null);
             setSSLContext(sslContext);
 
             if (!(mconfig instanceof WebOSTVServiceConfig)) {
@@ -863,8 +852,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
             Log.d(Util.T, "webOS Socket [OUT] : " + message);
 
             this.send(message);
-        }
-        else {
+        } else {
             System.err.println("connection lost");
             handleConnectionLost(false, null);
         }
@@ -937,7 +925,7 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
             certFactory = CertificateFactory.getInstance("X.509");
             ByteArrayInputStream inputStream = new ByteArrayInputStream(pemString.getBytes("US-ASCII"));
 
-            return (X509Certificate)certFactory.generateCertificate(inputStream);
+            return (X509Certificate) certFactory.generateCertificate(inputStream);
         } catch (CertificateException e) {
             e.printStackTrace();
             return null;
@@ -950,25 +938,31 @@ public class WebOSTVServiceSocketClient extends WebSocketClient implements Servi
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
         // only got here if we didn't return false
         return true;
     }
 
-    public interface WebOSTVServiceSocketClientListener {
+    public interface  WebOSTVServiceSocketClientListener {
 
         public void onConnect();
+
         public void onCloseWithError(ServiceCommandError error);
+
         public void onFailWithError(ServiceCommandError error);
 
         public void onBeforeRegister(PairingType pairingType);
+
         public void onRegistrationFailed(ServiceCommandError error);
+
         public Boolean onReceiveMessage(JSONObject message);
 
-         public void updateClientKey(String ClientKey);
-         public void updateUUID(String UUID);
-         public void updateIPAddress(String IPAddress);
+        public void updateClientKey(String ClientKey);
+
+        public void updateUUID(String UUID);
+
+        public void updateIPAddress(String IPAddress);
     }
 }

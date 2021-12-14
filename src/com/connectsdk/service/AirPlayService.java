@@ -45,7 +45,9 @@ import com.connectsdk.service.config.ServiceDescription;
 import com.connectsdk.service.sessions.LaunchSession;
 import com.connectsdk.service.sessions.LaunchSession.LaunchSessionType;
 import com.dd.plist.BinaryPropertyListWriter;
+import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
+import com.dd.plist.NSObject;
 
 import org.json.JSONObject;
 
@@ -416,6 +418,11 @@ public class AirPlayService extends DeviceService implements MediaPlayer, MediaC
     }
 
     @Override
+    public void playMedia(String url, String mimeType, String title, String description, String iconSrc, boolean shouldLoop, LaunchListener listener) {
+        playMedia(url, mimeType,title, description, iconSrc, null, shouldLoop, listener);
+    }
+
+    @Override
     public void displayImage(MediaInfo mediaInfo, LaunchListener listener) {
         String mediaUrl = null;
         String mimeType = null;
@@ -439,8 +446,8 @@ public class AirPlayService extends DeviceService implements MediaPlayer, MediaC
     }
 
     public void playVideo(final String url, String mimeType, String title,
-            String description, String iconSrc, boolean shouldLoop,
-            final LaunchListener listener) {
+                          String description, String iconSrc, String subtitleTrack, boolean shouldLoop,
+                          final LaunchListener listener) {
 
         ResponseListener<Object> responseListener = new ResponseListener<Object>() {
 
@@ -466,27 +473,33 @@ public class AirPlayService extends DeviceService implements MediaPlayer, MediaC
         NSDictionary plist = new NSDictionary();
         plist.put("Content-Location", url);
         plist.put("Start-Position", 0.0);
-
+        if(subtitleTrack != null) {
+            NSArray subtitleTracks = new NSArray(1);
+            subtitleTracks.setValue(0, subtitleTrack);
+            plist.put("Caption-Location", subtitleTracks);
+        }
         byte[] payload = new byte[0];
+
         try {
             payload = BinaryPropertyListWriter.writeToArray(plist);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
         ServiceCommand<ResponseListener<Object>> request = new ServiceCommand<ResponseListener<Object>>(this, uri, payload, responseListener);
         request.send();
     }
 
-    @Override
+
     public void playMedia(String url, String mimeType, String title,
-            String description, String iconSrc, boolean shouldLoop,
+            String description, String iconSrc, String subtitleTrack, boolean shouldLoop,
             LaunchListener listener) {
         if (mimeType.contains("image")) {
             displayImage(url, mimeType, title, description, iconSrc, listener);
         }
         else {
-            playVideo(url, mimeType, title, description, iconSrc, shouldLoop, listener);
+            playVideo(url, mimeType, title, description, iconSrc, subtitleTrack, shouldLoop, listener);
         }
     }
 
@@ -497,6 +510,7 @@ public class AirPlayService extends DeviceService implements MediaPlayer, MediaC
         String title = null;
         String desc = null;
         String iconSrc = null;
+        String subtitleTrack = null;
 
         if (mediaInfo != null) {
             mediaUrl = mediaInfo.getUrl();
@@ -504,13 +518,16 @@ public class AirPlayService extends DeviceService implements MediaPlayer, MediaC
             title = mediaInfo.getTitle();
             desc = mediaInfo.getDescription();
 
+            if(mediaInfo.getSubtitleInfo() != null)
+                subtitleTrack = mediaInfo.getSubtitleInfo().getUrl();
+
             if (mediaInfo.getImages() != null && mediaInfo.getImages().size() > 0) {
                 ImageInfo imageInfo = mediaInfo.getImages().get(0);
                 iconSrc = imageInfo.getUrl();
             }
         }
 
-        playMedia(mediaUrl, mimeType, title, desc, iconSrc, shouldLoop, listener);
+        playMedia(mediaUrl, mimeType, title, desc, iconSrc, subtitleTrack, shouldLoop, listener);
     }
 
     @Override

@@ -180,7 +180,8 @@ public class DiscoveryManager implements ConnectableDeviceListener, DiscoveryPro
     }
 
     public static synchronized void destroy() {
-        instance.onDestroy();
+        if(instance != null)
+            instance.onDestroy();
     }
 
     /**
@@ -295,7 +296,10 @@ public class DiscoveryManager implements ConnectableDeviceListener, DiscoveryPro
         if (isBroadcastReceiverRegistered) {
             isBroadcastReceiverRegistered = false;
 
-            context.unregisterReceiver(receiver);
+            try {
+                context.unregisterReceiver(receiver);
+            } catch (Throwable t) {
+            }
         }
     }
 

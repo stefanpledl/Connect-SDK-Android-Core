@@ -39,6 +39,7 @@ public class ServiceDescription implements Cloneable {
     public static final String KEY_PORT = "port";
     public static final String KEY_VERSION = "version";
     public static final String KEY_SERVICE_ID = "serviceId";
+    public static final String KEY_ICON = "icon";
 
     String UUID;
     String ipAddress;
@@ -59,6 +60,7 @@ public class ServiceDescription implements Cloneable {
     Object device;
 
     long lastDetection = Long.MAX_VALUE;
+    String icon;
 
     public ServiceDescription() { }
 
@@ -78,6 +80,8 @@ public class ServiceDescription implements Cloneable {
         port = json.optInt(KEY_PORT, -1);
         version = json.optString(KEY_VERSION, null);
         serviceID = json.optString(KEY_SERVICE_ID, null);
+        icon = json.optString(KEY_ICON, null);
+
     }
 
     public static ServiceDescription getDescription(JSONObject json) {
@@ -228,6 +232,14 @@ public class ServiceDescription implements Cloneable {
         this.device = device;
     }
 
+    public void setIcon(String icon){
+        this.icon = icon;
+    }
+
+    public String getIcon(){
+        return icon;
+    }
+
     public JSONObject toJSONObject() {
         JSONObject jsonObj = new JSONObject();
 
@@ -241,6 +253,7 @@ public class ServiceDescription implements Cloneable {
             jsonObj.putOpt(KEY_PORT, port);
             jsonObj.putOpt(KEY_VERSION, version);
             jsonObj.putOpt(KEY_SERVICE_ID, serviceID);
+            jsonObj.putOpt(KEY_ICON, icon);
         } catch (JSONException e) {
             e.printStackTrace();
         }
