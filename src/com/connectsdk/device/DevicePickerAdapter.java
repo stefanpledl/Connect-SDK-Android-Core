@@ -21,14 +21,11 @@
 package com.connectsdk.device;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.connectsdk.discovery.DiscoveryManager;
 
 import java.util.HashMap;
 

@@ -20,8 +20,6 @@
 
 package com.connectsdk.device;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Resources;
@@ -35,6 +33,8 @@ import com.connectsdk.core.Util;
 import com.connectsdk.service.DeviceService;
 import com.connectsdk.service.DeviceService.PairingType;
 import com.connectsdk.service.command.ServiceCommandError;
+
+import java.util.List;
 
 /**
  * A device picker that automatically connects to the device

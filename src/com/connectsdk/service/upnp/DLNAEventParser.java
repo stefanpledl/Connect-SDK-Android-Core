@@ -1,7 +1,6 @@
 package com.connectsdk.service.upnp;
 
-import java.io.IOException;
-import java.io.InputStream;
+import android.util.Xml;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,7 +8,8 @@ import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Xml;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DLNAEventParser {
     private static final String ns = null;

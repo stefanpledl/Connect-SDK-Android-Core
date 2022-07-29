@@ -24,15 +24,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.connectsdk.core.ImageInfo;
 import com.connectsdk.core.MediaInfo;
 import com.connectsdk.core.SubtitleInfo;
@@ -51,6 +42,15 @@ import com.connectsdk.service.command.URLServiceSubscription;
 import com.connectsdk.service.sessions.LaunchSession.LaunchSessionType;
 import com.connectsdk.service.webos.WebOSTVServiceSocketClient;
 import com.connectsdk.service.webos.WebOSTVServiceSocketClient.WebOSTVServiceSocketClientListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class WebOSWebAppSession extends WebAppSession {
     private static final String namespaceKey = "connectsdk.";

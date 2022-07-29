@@ -2,9 +2,7 @@ package com.connectsdk.service.webos;
 
 
 import com.connectsdk.service.WebOSTVService;
-import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.command.ServiceCommand;
-import com.connectsdk.service.command.ServiceCommandError;
 
 import junit.framework.Assert;
 

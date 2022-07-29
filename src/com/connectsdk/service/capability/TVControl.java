@@ -20,13 +20,13 @@
 
 package com.connectsdk.service.capability;
 
-import java.util.List;
-
 import com.connectsdk.core.ChannelInfo;
 import com.connectsdk.core.ProgramInfo;
 import com.connectsdk.core.ProgramList;
 import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.command.ServiceSubscription;
+
+import java.util.List;
 
 public interface TVControl extends CapabilityMethods {
     public final static String Any = "TVControl.Any";

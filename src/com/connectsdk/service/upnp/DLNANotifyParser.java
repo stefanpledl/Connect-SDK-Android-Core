@@ -1,9 +1,6 @@
 package com.connectsdk.service.upnp;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import android.util.Xml;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +8,10 @@ import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Xml;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 public class DLNANotifyParser {
     private static final String ns = null;

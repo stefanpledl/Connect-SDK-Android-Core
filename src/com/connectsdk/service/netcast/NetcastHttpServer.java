@@ -20,6 +20,19 @@
 
 package com.connectsdk.service.netcast;
 
+import android.util.Log;
+
+import com.connectsdk.core.ChannelInfo;
+import com.connectsdk.core.TextInputStatusInfo;
+import com.connectsdk.core.Util;
+import com.connectsdk.service.NetcastTVService;
+import com.connectsdk.service.capability.listeners.ResponseListener;
+import com.connectsdk.service.command.URLServiceSubscription;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xml.sax.SAXException;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
@@ -39,19 +52,6 @@ import java.util.TimeZone;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xml.sax.SAXException;
-
-import android.util.Log;
-
-import com.connectsdk.core.ChannelInfo;
-import com.connectsdk.core.TextInputStatusInfo;
-import com.connectsdk.core.Util;
-import com.connectsdk.service.NetcastTVService;
-import com.connectsdk.service.capability.listeners.ResponseListener;
-import com.connectsdk.service.command.URLServiceSubscription;
 
 public class NetcastHttpServer {
     static final String UDAP_PATH_EVENT = "/udap/api/event";

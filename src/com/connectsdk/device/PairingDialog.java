@@ -20,14 +20,14 @@
 
 package com.connectsdk.device;
 
-import com.connectsdk.service.DeviceService;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.text.InputType;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.connectsdk.service.DeviceService;
 
 
 public class PairingDialog {

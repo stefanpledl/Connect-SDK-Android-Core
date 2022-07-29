@@ -20,17 +20,17 @@
 
 package com.connectsdk.service.config;
 
+import android.util.Base64;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Base64;
 
 public class WebOSTVServiceConfig extends ServiceConfig {
 

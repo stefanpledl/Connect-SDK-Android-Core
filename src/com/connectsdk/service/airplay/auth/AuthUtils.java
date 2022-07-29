@@ -1,17 +1,10 @@
 package com.connectsdk.service.airplay.auth;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.util.Log;
-
-import com.connectsdk.discovery.DiscoveryManager;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;

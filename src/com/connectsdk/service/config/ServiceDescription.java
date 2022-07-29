@@ -20,13 +20,13 @@
 
 package com.connectsdk.service.config;
 
-import java.util.List;
-import java.util.Map;
+import com.connectsdk.discovery.provider.ssdp.Service;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.connectsdk.discovery.provider.ssdp.Service;
+import java.util.List;
+import java.util.Map;
 
 public class ServiceDescription implements Cloneable {
 

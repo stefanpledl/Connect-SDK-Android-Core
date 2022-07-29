@@ -20,14 +20,14 @@
 
 package com.connectsdk.service.roku;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.connectsdk.core.AppInfo;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.connectsdk.core.AppInfo;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RokuApplicationListParser extends DefaultHandler {
     public String value;

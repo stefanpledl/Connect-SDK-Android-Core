@@ -20,6 +20,11 @@
 
 package com.connectsdk.service.airplay;
 
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+
 import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,11 +37,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.Element;
 
 public class PListBuilder {
     DocumentType dt;

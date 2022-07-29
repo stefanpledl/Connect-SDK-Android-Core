@@ -20,12 +20,12 @@
 
 package com.connectsdk.service.command;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.connectsdk.service.capability.listeners.ResponseListener;
 
 import org.json.JSONObject;
 
-import com.connectsdk.service.capability.listeners.ResponseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Internal implementation of ServiceSubscription for URL-based commands

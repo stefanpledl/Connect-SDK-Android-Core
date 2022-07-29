@@ -8,14 +8,14 @@ import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-import java.net.InetAddress;
+import android.content.Context;
 
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceInfo;
-import javax.jmdns.ServiceListener;
-import javax.jmdns.impl.JmDNSImpl;
+import com.connectsdk.discovery.DiscoveryFilter;
+import com.connectsdk.discovery.DiscoveryManager;
+import com.connectsdk.discovery.DiscoveryProvider;
+import com.connectsdk.discovery.DiscoveryProviderListener;
+import com.connectsdk.service.config.ServiceDescription;
+import com.connectsdk.shadow.WifiInfoShadow;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,14 +26,14 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import android.content.Context;
+import java.io.IOException;
+import java.net.InetAddress;
 
-import com.connectsdk.discovery.DiscoveryFilter;
-import com.connectsdk.discovery.DiscoveryManager;
-import com.connectsdk.discovery.DiscoveryProvider;
-import com.connectsdk.discovery.DiscoveryProviderListener;
-import com.connectsdk.service.config.ServiceDescription;
-import com.connectsdk.shadow.WifiInfoShadow;
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
+import javax.jmdns.impl.JmDNSImpl;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE, shadows = { WifiInfoShadow.class })

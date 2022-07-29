@@ -19,6 +19,8 @@
  */
 package com.connectsdk.service.sessions;
 
+import android.support.annotation.NonNull;
+
 import com.connectsdk.core.MediaInfo;
 import com.connectsdk.core.SubtitleInfo;
 import com.connectsdk.service.DeviceService;
@@ -44,8 +46,6 @@ import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
-import android.support.annotation.NonNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE)

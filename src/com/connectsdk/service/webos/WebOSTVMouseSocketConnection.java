@@ -20,6 +20,12 @@
 
 package com.connectsdk.service.webos;
 
+import android.util.Log;
+
+import org.java_websocket.WebSocket.READYSTATE;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,12 +33,6 @@ import java.security.KeyException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLContext;
-
-import org.java_websocket.WebSocket.READYSTATE;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
-
-import android.util.Log;
 
 public class WebOSTVMouseSocketConnection {
     public interface WebOSTVMouseSocketListener {

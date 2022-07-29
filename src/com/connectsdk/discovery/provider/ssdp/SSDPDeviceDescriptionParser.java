@@ -20,12 +20,12 @@
 
 package com.connectsdk.discovery.provider.ssdp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SSDPDeviceDescriptionParser extends DefaultHandler {
     public static final String TAG_DEVICE_TYPE = "deviceType";

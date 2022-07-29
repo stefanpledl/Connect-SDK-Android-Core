@@ -1,12 +1,12 @@
 package com.connectsdk.shadow;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import android.net.wifi.WifiInfo;
 
 import org.robolectric.annotation.Implements;
 import org.robolectric.shadows.ShadowWifiInfo;
 
-import android.net.wifi.WifiInfo;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Implements(WifiInfo.class)
 public class WifiInfoShadow extends ShadowWifiInfo {

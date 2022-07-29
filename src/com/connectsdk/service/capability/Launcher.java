@@ -20,12 +20,12 @@
 
 package com.connectsdk.service.capability;
 
-import java.util.List;
-
 import com.connectsdk.core.AppInfo;
 import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.command.ServiceSubscription;
 import com.connectsdk.service.sessions.LaunchSession;
+
+import java.util.List;
 
 public interface Launcher extends CapabilityMethods {
     public final static String Any = "Launcher.Any";

@@ -20,16 +20,16 @@
 
 package com.connectsdk.service.sessions;
 
-import java.util.List;
+import com.connectsdk.core.JSONDeserializable;
+import com.connectsdk.core.JSONSerializable;
+import com.connectsdk.service.DeviceService;
+import com.connectsdk.service.capability.listeners.ResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.connectsdk.core.JSONDeserializable;
-import com.connectsdk.core.JSONSerializable;
-import com.connectsdk.service.DeviceService;
-import com.connectsdk.service.capability.listeners.ResponseListener;
+import java.util.List;
 
 /**
  * Any time anything is launched onto a first screen device, there will be important session information that needs to be tracked. LaunchSession will track this data, and must be retained to perform certain actions within the session.

@@ -20,12 +20,12 @@
 
 package com.connectsdk.service.capability;
 
-import java.util.List;
-
 import com.connectsdk.core.ExternalInputInfo;
 import com.connectsdk.service.capability.Launcher.AppLaunchListener;
 import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.sessions.LaunchSession;
+
+import java.util.List;
 
 public interface ExternalInputControl extends CapabilityMethods {
     public final static String Any = "ExternalInputControl.Any";

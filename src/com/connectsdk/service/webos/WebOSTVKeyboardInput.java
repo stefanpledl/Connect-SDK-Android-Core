@@ -20,20 +20,20 @@
 
 package com.connectsdk.service.webos;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.connectsdk.core.TextInputStatusInfo;
 import com.connectsdk.core.Util;
 import com.connectsdk.service.WebOSTVService;
 import com.connectsdk.service.capability.TextInputControl.TextInputStatusListener;
 import com.connectsdk.service.capability.listeners.ResponseListener;
-import com.connectsdk.service.command.ServiceCommandError;
 import com.connectsdk.service.command.ServiceCommand;
+import com.connectsdk.service.command.ServiceCommandError;
 import com.connectsdk.service.command.URLServiceSubscription;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WebOSTVKeyboardInput {
 

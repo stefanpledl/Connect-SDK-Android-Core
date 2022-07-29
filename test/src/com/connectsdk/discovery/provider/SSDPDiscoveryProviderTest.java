@@ -1,5 +1,9 @@
 package com.connectsdk.discovery.provider;
 
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import android.content.Context;
 
 import com.connectsdk.core.TestUtil;
@@ -14,7 +18,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
@@ -25,10 +28,6 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,shadows={WifiInfoShadow.class})

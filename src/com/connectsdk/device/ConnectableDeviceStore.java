@@ -20,10 +20,10 @@
 
 package com.connectsdk.device;
 
-import org.json.JSONObject;
-
 import com.connectsdk.service.config.ServiceConfig;
 import com.connectsdk.service.config.ServiceDescription;
+
+import org.json.JSONObject;
 
 /**
  * ConnectableDeviceStore is a interface which can be implemented to save key information about ConnectableDevices that have been connected to.  Any class which implements this interface can be used as DiscoveryManager's deviceStore.

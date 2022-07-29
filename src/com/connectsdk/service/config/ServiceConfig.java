@@ -20,13 +20,13 @@
 
 package com.connectsdk.service.config;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import com.connectsdk.core.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.connectsdk.core.Util;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class ServiceConfig {
     public static final String KEY_CLASS = "class";

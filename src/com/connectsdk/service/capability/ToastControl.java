@@ -20,10 +20,10 @@
 
 package com.connectsdk.service.capability;
 
-import org.json.JSONObject;
-
 import com.connectsdk.core.AppInfo;
 import com.connectsdk.service.capability.listeners.ResponseListener;
+
+import org.json.JSONObject;
 
 public interface ToastControl extends CapabilityMethods {
     public final static String Any = "ToastControl.Any";

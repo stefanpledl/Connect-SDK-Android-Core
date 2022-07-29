@@ -20,11 +20,11 @@
 
 package com.connectsdk.device;
 
-import java.util.List;
-
 import com.connectsdk.service.DeviceService;
 import com.connectsdk.service.DeviceService.PairingType;
 import com.connectsdk.service.command.ServiceCommandError;
+
+import java.util.List;
 
 /**
  * ConnectableDeviceListener allows for a class to receive messages about ConnectableDevice connection, disconnect, and update events.

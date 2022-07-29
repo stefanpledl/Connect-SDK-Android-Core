@@ -20,14 +20,14 @@
 
 package com.connectsdk.service.netcast;
 
+import com.connectsdk.core.ChannelInfo;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import com.connectsdk.core.ChannelInfo;
 
 public class NetcastChannelParser extends DefaultHandler {
     public JSONArray channelArray;

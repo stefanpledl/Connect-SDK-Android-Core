@@ -1,11 +1,10 @@
 package com.connectsdk.service.airplay.auth.crypt.srp6;
 
-import com.nimbusds.srp6.*;
-
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import com.nimbusds.srp6.*;
 
 class ClientEvidenceRoutineImpl implements ClientEvidenceRoutine {
 

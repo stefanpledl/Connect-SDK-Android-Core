@@ -22,7 +22,6 @@ package com.connectsdk.service;
 
 import com.connectsdk.core.TestUtil;
 import com.connectsdk.etc.helper.HttpConnection;
-import com.connectsdk.etc.helper.HttpMessage;
 import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.command.ServiceCommand;
 import com.connectsdk.service.command.ServiceCommandError;

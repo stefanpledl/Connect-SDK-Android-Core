@@ -20,14 +20,14 @@
 
 package com.connectsdk.service.command;
 
+import com.connectsdk.service.capability.listeners.ResponseListener;
+
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.json.JSONObject;
-
-import com.connectsdk.service.capability.listeners.ResponseListener;
 
 /**
  * Internal implementation of ServiceCommand for URL-based commands

@@ -20,13 +20,13 @@
 
 package com.connectsdk.service.capability;
 
-import org.json.JSONObject;
-
 import com.connectsdk.service.capability.listeners.ResponseListener;
 import com.connectsdk.service.command.ServiceSubscription;
 import com.connectsdk.service.sessions.LaunchSession;
 import com.connectsdk.service.sessions.WebAppSession.LaunchListener;
 import com.connectsdk.service.sessions.WebAppSession.WebAppPinStatusListener;
+
+import org.json.JSONObject;
 
 
 public interface WebAppLauncher extends CapabilityMethods {
